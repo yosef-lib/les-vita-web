@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   // "MASTER_ADMIN", "TUTOR", "STUDENT"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  subjects  Subject[] @relation("TutorSubjects")
+  student   Student?
+}
+
+model Student {
+  id            String   @id @default(uuid())
+  userId        String?  @unique // Link to User account (optional)
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  nis           String   @unique
+  name          String
+  grade         String
+  school        String
+  phone         String
+  parentName    String
+  parentPhone   String
+  status        String   @default("AKTIF")
+  learningMode  String   @default("OFFLINE") // "OFFLINE", "ONLINE", "HYBRID"
+  joinDate      DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  invoices      Invoice[]
+  subjects      Subject[]
+  liveReports   LiveReport[]
+  reminders     Reminder[]
+  homeworks     Homework[]
+}
+
+model Invoice {
+  id          String   @id @default(uuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  month       String
+  year        String
+  amount      Int
+  status      String   // "LUNAS", "BELUM_LUNAS", "JATUH_TEMPO"
+  dueDate     DateTime
+  paymentDate DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Subject {
+  id          String   @id @default(uuid())
+  name        String   // "Matematika SD", "IPA SMP"
+  description String?
+  tutorId     String?
+  tutor       User?    @relation("TutorSubjects", fields: [tutorId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  students    Student[]
+}
+
+model LiveReport {
+  id               String   @id @default(uuid())
+  studentId        String
+  student          Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date             DateTime @default(now())
+  topic            String
+  understanding    String   // "Sangat Baik", "Baik", "Cukup", "Kurang"
+  notes            String?
+  status           String   @default("DRAFT") // "DRAFT", "SENT"
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Reminder {
+  id          String   @id @default(uuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  type        String   // "TAGIHAN", "JADWAL"
+  message     String
+  status      String   @default("PENDING") // "PENDING", "SENT"
+  sentAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model Homework {
+  id          String   @id @default(uuid())
+  studentId   String
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  dueDate     DateTime
+  status      String   @default("BELUM") // "BELUM", "SELESAI"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
