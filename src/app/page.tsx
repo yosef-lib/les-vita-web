@@ -18,36 +18,7 @@ function useInView(threshold = 0.15) {
 }
 
 /* ===== Data ===== */
-const testimonials = [
-  {
-    name: "Ibu Rahmawati",
-    role: "Mama dari Alif (SD Kelas 5)",
-    quote: "Sejak les di Les Vita, Alif jadi jauh lebih percaya diri. Nilai matematikanya naik dari 65 menjadi 92! Pengajarnya sabar dan ramah banget sama anak-anak.",
-    impact: "Peringkat 15 ➔ Peringkat 2 Kelas",
-    stars: 5,
-  },
-  {
-    name: "Ibu Maya Kartika",
-    role: "Mama dari Dimas (SMP Kelas 8)",
-    quote: "Laporan belajar rutin via WA sangat membantu kami pantau perkembangan Dimas. Anak senang belajar, gak lagi tertekan. Modul latihannya juga bagus!",
-    impact: "Disiplin Belajar Meningkat Pesat",
-    stars: 5,
-  },
-  {
-    name: "Bapak Surya Pratama",
-    role: "Papa dari Nadia (SD Kelas 3)",
-    quote: "Nadia dulu takut matematika, sekarang malah semangat minta belajar. Les Vita paham cara mengajar anak kecil yang fun dan gak bikin stres.",
-    impact: "Nilai Matematika 60 ➔ 88",
-    stars: 5,
-  },
-  {
-    name: "Ibu Lestari",
-    role: "Mama dari Kevin (SMP Kelas 7)",
-    quote: "Pengingat jadwal les lewat WA sangat membantu karena kami berdua bekerja. Kevin jadi disiplin belajar sendiri dan nilainya meningkat di semua mata pelajaran.",
-    impact: "Ranking Naik 10 Peringkat",
-    stars: 5,
-  },
-];
+
 
 
 
@@ -55,16 +26,10 @@ type ProgramTab = "sd" | "smp";
 
 const programs: Record<ProgramTab, { icon: string; title: string; desc: string; price: string }[]> = {
   sd: [
-    { icon: "🧒", title: "Calistung & Karakter (PAUD-Kelas 3)", desc: "Metode belajar sambil bermain untuk membaca, menulis, berhitung. Membangun karakter percaya diri sejak dini.", price: "Rp 250rb/bln" },
-    { icon: "📐", title: "Matematika & IPA Cerdas SD", desc: "Memperkuat konsep dasar perhitungan, soal cerita, dan persiapan asesmen nasional sekolah dasar.", price: "Rp 350rb/bln" },
-    { icon: "🇬🇧", title: "English Fun for Kids", desc: "Latihan percakapan bahasa Inggris dasar, vocabulary, dan cerita anak interaktif. Seru dan menyenangkan!", price: "Rp 300rb/bln" },
-    { icon: "📚", title: "Les Semua Mapel SD (Kelas 4-6)", desc: "Pendampingan lengkap semua mata pelajaran SD, termasuk persiapan ujian semester dan asesmen nasional.", price: "Rp 400rb/bln" },
+    { icon: "📚", title: "Les Semua Mapel SD", desc: "Pendampingan lengkap semua mata pelajaran SD (Kelas 1–6), mulai dari Matematika, IPA, IPS, Bahasa Indonesia hingga Bahasa Inggris. Termasuk persiapan ujian semester dan asesmen nasional.", price: "Hubungi Kami" },
   ],
   smp: [
-    { icon: "🧮", title: "Matematika & IPA SMP", desc: "Bedah aljabar, geometri, fisika dasar dengan rumus sakti dan trik pengerjaan soal yang mudah dipahami.", price: "Rp 400rb/bln" },
-    { icon: "🏆", title: "Persiapan OSN & Lomba Sains", desc: "Pendampingan intensif bagi siswa berprestasi yang menargetkan medali olimpiade sains tingkat kota/nasional.", price: "Rp 500rb/bln" },
-    { icon: "📝", title: "Sukses Ujian Sekolah SMP", desc: "Pembahasan bank soal ujian semester dan persiapan masuk SMA favorit impian anak.", price: "Rp 450rb/bln" },
-    { icon: "🇬🇧", title: "Bahasa Inggris SMP", desc: "Grammar, reading comprehension, dan conversation practice untuk mengasah kemampuan bahasa Inggris.", price: "Rp 400rb/bln" },
+    { icon: "📖", title: "Les Semua Mapel SMP", desc: "Bimbingan lengkap semua mata pelajaran SMP (Kelas 7–9), mencakup Matematika, IPA, IPS, Bahasa Indonesia, Bahasa Inggris. Termasuk persiapan ujian sekolah dan masuk SMA favorit.", price: "Hubungi Kami" },
   ],
 };
 
@@ -76,10 +41,10 @@ const features = [
 ];
 
 const stats = [
-  { value: "500+", label: "Siswa Aktif" },
-  { value: "98%", label: "Orang Tua Puas" },
-  { value: "15+", label: "Tutor Berpengalaman" },
-  { value: "5 Tahun", label: "Berpengalaman" },
+  { value: "SD & SMP", label: "Jenjang Tersedia" },
+  { value: "Semua", label: "Mata Pelajaran" },
+  { value: "100%", label: "Berbasis Kebutuhan" },
+  { value: "WA", label: "Laporan ke Orang Tua" },
 ];
 
 /* ===== Star Component ===== */
@@ -128,9 +93,7 @@ export default function Home() {
   const navLinks = [
     { href: "#beranda", label: "Beranda" },
     { href: "#keunggulan", label: "Keunggulan" },
-    { href: "#testimoni", label: "Testimoni" },
     { href: "#program", label: "Program Les" },
-    { href: "#e-learning", label: "E-Learning" },
   ];
 
   return (
@@ -365,42 +328,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ====================== TESTIMONIALS ====================== */}
-        <section id="testimoni" ref={testimonialSection.ref} className="w-full py-20 bg-white">
-          <div className="max-w-[1200px] mx-auto px-4 md:px-8">
-            <div className={`text-center max-w-2xl mx-auto mb-14 ${testimonialSection.inView ? "animate-fade-in-up" : "opacity-0"}`}>
-              <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[var(--accent-dark)] bg-[var(--accent-glow)] px-4 py-1.5 rounded-full">
-                💬 Cerita Orang Tua
-              </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--text-primary)] mt-4 tracking-tight">
-                Dipercaya Ratusan Keluarga Indonesia
-              </h2>
-            </div>
 
-            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger ${testimonialSection.inView ? "" : "opacity-0"}`}>
-              {testimonials.map((t, i) => (
-                <div key={i} className={`relative bg-[var(--bg-muted)] rounded-2xl p-6 border border-[var(--border-light)] card-hover testimonial-card ${testimonialSection.inView ? "animate-fade-in-up" : ""}`}>
-                  <Stars count={t.stars} />
-                  <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed mt-4 mb-5 italic">
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-light)]">
-                    <div className="w-9 h-9 rounded-full bg-[var(--primary)] text-white flex items-center justify-center font-bold text-xs">
-                      {t.name.split(" ").map(n => n[0]).join("").slice(0,2)}
-                    </div>
-                    <div>
-                      <div className="font-bold text-[13px] text-[var(--text-primary)]">{t.name}</div>
-                      <div className="text-[11px] text-[var(--text-muted)]">{t.role}</div>
-                    </div>
-                  </div>
-                  <div className="mt-3 inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 text-[11px] font-bold px-3 py-1.5 rounded-lg">
-                    📈 {t.impact}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* ====================== PROGRAMS ====================== */}
         <section id="program" ref={programSection.ref} className="w-full py-20 bg-[var(--bg-page)]">
