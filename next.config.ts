@@ -1,7 +1,21 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+// next-pwa tidak kompatibel dengan Turbopack, gunakan webpack saja untuk production
+const isProd = process.env.NODE_ENV === "production";
+
+let nextConfig: NextConfig = {
+  turbopack: {},
 };
 
-export default nextConfig;
+if (isProd) {
+  const withPWA = require("next-pwa")({
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+    sw: "sw.js",
+    disable: false,
+  });
+  module.exports = withPWA(nextConfig);
+} else {
+  module.exports = nextConfig;
+}
