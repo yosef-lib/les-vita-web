@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 
 export default async function StudentRaporPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const userId = cookieStore.get('userId')?.value;
 
   if (!userId) {
