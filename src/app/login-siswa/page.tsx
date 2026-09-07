@@ -129,7 +129,7 @@ export default function StudentLoginPage() {
           
           <div className="bg-[var(--bg-muted)] border-t border-[var(--border-light)] p-5 text-center">
             <p className="text-[12px] text-[var(--text-secondary)] font-medium">
-              Lupa password? <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="text-[var(--primary)] font-bold hover:underline">Tanya Kakak Admin</a>
+              Lupa password? <a href="https://wa.me/6289646416982" target="_blank" rel="noreferrer" className="text-[var(--primary)] font-bold hover:underline">Tanya Kakak Admin</a>
             </p>
           </div>
         </div>

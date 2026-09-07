@@ -190,7 +190,7 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <a href="https://wa.me/6281234567890?text=Halo%20Admin%20Les%20Vita,%20saya%20ingin%20daftarkan%20anak%20saya"
+            <a href="https://wa.me/6289646416982?text=Halo%20Admin%20Les%20Vita,%20saya%20ingin%20daftarkan%20anak%20saya"
               target="_blank" rel="noreferrer"
               className="gradient-btn text-white text-[12px] font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-orange-500/20 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-1.5"
             >
@@ -264,7 +264,7 @@ export default function Home() {
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-1">
-                <a href="https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20ingin%20konsultasi%20les%20anak%20saya" target="_blank" rel="noreferrer"
+                <a href="https://wa.me/6289646416982?text=Halo%20Admin,%20saya%20ingin%20konsultasi%20les%20anak%20saya" target="_blank" rel="noreferrer"
                   className="gradient-btn text-white font-bold px-7 py-3.5 rounded-2xl shadow-xl shadow-orange-600/25 hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 flex items-center gap-2.5 text-[15px]">
                   📲 Konsultasi Gratis via WA
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -314,7 +314,7 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <a href="https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20ingin%20konsultasi%20les%20anak" target="_blank" rel="noreferrer"
+                  <a href="https://wa.me/6289646416982?text=Halo%20Admin,%20saya%20ingin%20konsultasi%20les%20anak" target="_blank" rel="noreferrer"
                     className="w-full block text-center gradient-btn text-white font-bold py-3.5 rounded-xl shadow-md transition-all text-sm hover:shadow-lg">
                     Konsultasi Gratis via WhatsApp 📲
                   </a>
@@ -441,7 +441,7 @@ export default function Home() {
                   </div>
                   <div className="mt-5 flex items-center justify-between pt-4 border-t border-[var(--border-light)]">
                     <span className="font-extrabold text-[var(--primary)] text-sm">{p.price}</span>
-                    <a href={`https://wa.me/6281234567890?text=Halo%20Admin,%20saya%20ingin%20tanya%20program:%20${encodeURIComponent(p.title)}`}
+                    <a href={`https://wa.me/6289646416982?text=Halo%20Admin,%20saya%20ingin%20tanya%20program:%20${encodeURIComponent(p.title)}`}
                       target="_blank" rel="noreferrer"
                       className="text-[12px] font-bold text-[var(--accent-dark)] hover:text-[var(--accent)] transition-colors flex items-center gap-1">
                       Info Detail
@@ -472,7 +472,7 @@ export default function Home() {
               Bergabung dengan 500+ keluarga yang sudah mempercayakan les anak mereka di Les Vita. Konsultasi pertama <strong className="text-white">GRATIS</strong>!
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-8">
-              <a href="https://wa.me/6281234567890?text=Halo%20Admin%20Les%20Vita,%20saya%20ingin%20daftar%20les%20untuk%20anak%20saya"
+              <a href="https://wa.me/6289646416982?text=Halo%20Admin%20Les%20Vita,%20saya%20ingin%20daftar%20les%20untuk%20anak%20saya"
                 target="_blank" rel="noreferrer"
                 className="gradient-btn text-white font-bold px-8 py-4 rounded-2xl shadow-xl shadow-orange-600/25 hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 text-base flex items-center gap-2">
                 📲 Daftar via WhatsApp
@@ -528,9 +528,9 @@ export default function Home() {
           <div>
             <h4 className="font-bold text-[13px] text-white mb-4 uppercase tracking-wider">Hubungi Kami</h4>
             <div className="space-y-3">
-              <p className="text-[13px] text-white/50">WhatsApp: <span className="text-white/70">+62 812-3456-7890</span></p>
+              <p className="text-[13px] text-white/50">WhatsApp: <span className="text-white/70">+62 896-4641-6982</span></p>
               <p className="text-[13px] text-white/50">Email: <span className="text-white/70">info@lesvita.com</span></p>
-              <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer"
+              <a href="https://wa.me/6289646416982" target="_blank" rel="noreferrer"
                 className="inline-flex items-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 font-bold text-[12px] px-4 py-2.5 rounded-xl border border-emerald-500/20 transition-colors">
                 💬 Chat WA Admin
               </a>

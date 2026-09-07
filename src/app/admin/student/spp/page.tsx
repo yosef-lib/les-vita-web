@@ -92,7 +92,7 @@ export default function SPPPage() {
                 </ul>
               </div>
 
-              <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="block w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-center transition-colors shadow-lg shadow-emerald-500/20">
+              <a href="https://wa.me/6289646416982" target="_blank" rel="noreferrer" className="block w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-center transition-colors shadow-lg shadow-emerald-500/20">
                 Konfirmasi via WhatsApp
               </a>
             </div>
