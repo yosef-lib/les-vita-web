@@ -113,5 +113,6 @@ model SiteSettings {
   id              String   @id @default("global")
   chatbotPrompt   String?
   homepageContent String?  // JSON string
+  faqContent      String?  // JSON string for widget faqs
   updatedAt       DateTime @updatedAt
 }

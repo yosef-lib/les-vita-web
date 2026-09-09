@@ -7,6 +7,8 @@ import Link from "next/link";
 export default function SettingsPage() {
   const [chatbotPrompt, setChatbotPrompt] = useState("");
   const [programs, setPrograms] = useState<{sd: any[], smp: any[]}>({ sd: [], smp: [] });
+  const [faqs, setFaqs] = useState<{q: string, a: string}[]>([]);
+  const [fallbackMsg, setFallbackMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<"sd" | "smp">("sd");
@@ -16,6 +18,7 @@ export default function SettingsPage() {
       .then(res => res.json())
       .then(data => {
         setChatbotPrompt(data.chatbotPrompt || "");
+        
         if (data.homepageContent) {
           try {
             const parsed = typeof data.homepageContent === 'string' ? JSON.parse(data.homepageContent) : data.homepageContent;
@@ -27,6 +30,16 @@ export default function SettingsPage() {
             }
           } catch (e) {
             console.error("Failed to parse programs", e);
+          }
+        }
+
+        if (data.faqContent) {
+          try {
+            const parsedFaq = typeof data.faqContent === 'string' ? JSON.parse(data.faqContent) : data.faqContent;
+            setFaqs(parsedFaq.faqs || []);
+            setFallbackMsg(parsedFaq.fallback || "");
+          } catch (e) {
+            console.error("Failed to parse FAQs", e);
           }
         }
         setIsLoading(false);
@@ -47,7 +60,8 @@ export default function SettingsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chatbotPrompt,
-          homepageContent: { programs }
+          homepageContent: { programs },
+          faqContent: { faqs, fallback: fallbackMsg }
         })
       });
 
@@ -83,6 +97,22 @@ export default function SettingsPage() {
     });
   };
 
+  const addFaq = () => {
+    setFaqs(prev => [...prev, { q: "Pertanyaan baru?", a: "Jawaban baru" }]);
+  };
+
+  const updateFaq = (index: number, field: "q" | "a", value: string) => {
+    setFaqs(prev => {
+      const newFaqs = [...prev];
+      newFaqs[index] = { ...newFaqs[index], [field]: value };
+      return newFaqs;
+    });
+  };
+
+  const removeFaq = (index: number) => {
+    setFaqs(prev => prev.filter((_, i) => i !== index));
+  };
+
   if (isLoading) return <div className="p-8 text-center text-slate-500 font-bold">Memuat...</div>;
 
   return (
@@ -96,11 +126,68 @@ export default function SettingsPage() {
         </div>
 
         <form onSubmit={handleSave} className="space-y-6">
-          {/* Chatbot Setting */}
+          
+          {/* Chatbot Setting (Floating Widget) */}
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="text-lg font-bold text-slate-800 mb-2">Instruksi Chatbot AI</h2>
+            <h2 className="text-lg font-bold text-slate-800 mb-2">Balasan Cepat Chatbot (Pojok Kanan Bawah)</h2>
+            <p className="text-sm text-slate-500 mb-6">
+              Atur daftar pertanyaan dan jawaban otomatis. Jika siswa bertanya hal lain, mereka akan diarahkan ke admin (Pesan Default).
+            </p>
+            
+            <div className="space-y-4 mb-6">
+              {faqs.map((faq, idx) => (
+                <div key={idx} className="p-4 border border-slate-200 rounded-xl bg-slate-50 relative flex flex-col gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 mb-1">Jika ada yang bertanya (Kata Kunci/Pertanyaan):</label>
+                    <input 
+                      type="text" 
+                      value={faq.q} 
+                      onChange={e => updateFaq(idx, 'q', e.target.value)}
+                      className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none font-semibold text-slate-800"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 mb-1">Maka jawabannya adalah:</label>
+                    <textarea 
+                      value={faq.a} 
+                      onChange={e => updateFaq(idx, 'a', e.target.value)}
+                      className="w-full p-2 h-20 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm text-slate-600"
+                    />
+                  </div>
+                  <button 
+                    type="button" 
+                    onClick={() => removeFaq(idx)}
+                    className="absolute top-2 right-2 text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1 rounded-lg transition-colors font-bold text-sm border border-red-200"
+                  >
+                    Hapus
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addFaq}
+                className="w-full py-3 border-2 border-dashed border-slate-300 text-slate-500 font-semibold rounded-xl hover:border-sky-500 hover:text-sky-600 transition-colors flex items-center justify-center gap-2"
+              >
+                + Tambah Pertanyaan & Jawaban Baru
+              </button>
+            </div>
+
+            <div className="pt-4 border-t border-slate-200">
+              <label className="block text-sm font-bold text-slate-800 mb-2">Pesan Default (Jika pertanyaan tidak ada di daftar atas):</label>
+              <textarea 
+                value={fallbackMsg} 
+                onChange={e => setFallbackMsg(e.target.value)}
+                className="w-full p-3 h-24 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-sky-500 outline-none transition-all"
+                placeholder="Mohon maaf, silakan hubungi admin di WA..."
+              />
+            </div>
+          </div>
+
+          {/* AI Tutor Setting */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 className="text-lg font-bold text-slate-800 mb-2">Instruksi AI (Bagian Tengah Halaman Depan)</h2>
             <p className="text-sm text-slate-500 mb-4">
-              Ketik instruksi atau cara menjawab si Chatbot di sini. Anda bisa memasukkan daftar harga atau sapaan ramah.
+              Instruksi ini digunakan khusus untuk fitur "Tanya Kak Vita AI" yang dirancang untuk menjawab soal pelajaran.
             </p>
             <textarea 
               value={chatbotPrompt}

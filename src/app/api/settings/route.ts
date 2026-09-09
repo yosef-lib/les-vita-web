@@ -25,6 +25,15 @@ Jika ada rumus matematika atau fisika, jelaskan dengan rapi dan berikan trik cep
                 { icon: "📖", title: "Les Semua Mapel SMP", desc: "Bimbingan lengkap semua mata pelajaran SMP (Kelas 7–9), mencakup Matematika, IPA, IPS, Bahasa Indonesia, Bahasa Inggris. Termasuk persiapan ujian sekolah dan masuk SMA favorit.", price: "Hubungi Kami" }
               ]
             }
+          }),
+          faqContent: JSON.stringify({
+            faqs: [
+              { q: "Ada program les apa saja?", a: "Kami punya program les SD & SMP:\n\n📚 SD: Calistung, Matematika & IPA, English Fun, Les Semua Mapel\n📚 SMP: Matematika & IPA, OSN, Ujian Sekolah, Bahasa Inggris\n\nMau tahu detail yang mana? 😊" },
+              { q: "Berapa biaya les per bulan?", a: "Biaya mulai dari:\n\n• SD: Rp 250rb - 400rb/bulan\n• SMP: Rp 400rb - 500rb/bulan\n\nSudah termasuk modul & laporan WA ke orang tua!\n\n📲 Chat WA admin untuk info lebih detail ya!" },
+              { q: "Bagaimana cara mendaftar?", a: "Cara daftar:\n1️⃣ Chat admin via WA\n2️⃣ Konsultasi gratis\n3️⃣ Pilih program & jadwal\n4️⃣ Mulai les! 🎉\n\n✅ Konsultasi & trial pertama GRATIS!" },
+              { q: "Jadwal les hari apa?", a: "Jadwal fleksibel:\n⏰ Senin - Sabtu\n⏰ 13.00 - 20.00 WIB\n⏰ 60-90 menit/pertemuan\n\nBisa diatur sesuai kegiatan sekolah anak!" }
+            ],
+            fallback: "Mohon maaf, silakan hubungi lebih lanjut di WA admin kami: 08123456789"
           })
         }
       });
@@ -44,12 +53,14 @@ export async function POST(req: Request) {
       where: { id: "global" },
       update: {
         chatbotPrompt: body.chatbotPrompt !== undefined ? body.chatbotPrompt : undefined,
-        homepageContent: body.homepageContent ? JSON.stringify(body.homepageContent) : undefined
+        homepageContent: body.homepageContent ? JSON.stringify(body.homepageContent) : undefined,
+        faqContent: body.faqContent ? JSON.stringify(body.faqContent) : undefined
       },
       create: {
         id: "global",
         chatbotPrompt: body.chatbotPrompt,
-        homepageContent: body.homepageContent ? JSON.stringify(body.homepageContent) : undefined
+        homepageContent: body.homepageContent ? JSON.stringify(body.homepageContent) : undefined,
+        faqContent: body.faqContent ? JSON.stringify(body.faqContent) : undefined
       }
     });
 

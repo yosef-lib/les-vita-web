@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { askVitaAI } from "@/lib/aiClient";
 
 export default function AITutorWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +12,24 @@ export default function AITutorWidget() {
       text: "Halo Bunda/Ayah! 👋 Saya admin Les Vita. Mau tanya tentang program les, jadwal, biaya, atau pendaftaran? Silakan chat di sini ya!",
     },
   ]);
+  
+  const [faqs, setFaqs] = useState<{q: string, a: string}[]>([]);
+  const [fallback, setFallback] = useState("Mohon maaf, silakan hubungi lebih lanjut di WA admin kami: https://wa.me/628123456789");
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.faqContent) {
+          try {
+            const parsed = typeof data.faqContent === 'string' ? JSON.parse(data.faqContent) : data.faqContent;
+            setFaqs(parsed.faqs || []);
+            if (parsed.fallback) setFallback(parsed.fallback);
+          } catch(e){}
+        }
+      })
+      .catch(err => console.error("Failed to load FAQs", err));
+  }, []);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -20,35 +37,39 @@ export default function AITutorWidget() {
     if (isOpen) messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
 
-  const quickPrompts = [
-    "Ada program les apa saja?",
-    "Berapa biaya les per bulan?",
-    "Bagaimana cara mendaftar?",
-    "Jadwal les hari apa?",
-  ];
+  const quickPrompts = faqs.length > 0 
+    ? faqs.map(f => f.q).slice(0, 4) 
+    : [
+        "Ada program les apa saja?",
+        "Berapa biaya les per bulan?",
+        "Bagaimana cara mendaftar?",
+        "Jadwal les hari apa?",
+      ];
 
   const handleSend = async (textToSend?: string) => {
     const query = textToSend || inputMessage;
     if (!query.trim() || typing) return;
 
-    const userMsg = { role: "user" as const, text: query };
-    const newMsgs = [...messages, userMsg];
-    setMessages(newMsgs);
+    setMessages((prev) => [...prev, { role: "user", text: query }]);
     if (!textToSend) setInputMessage("");
     setTyping(true);
 
-    try {
-      const apiMessages = newMsgs.map(m => ({
-        role: m.role === 'bot' ? 'assistant' : 'user',
-        content: m.text
-      })) as any[];
-      const response = await askVitaAI(apiMessages);
-      setMessages([...newMsgs, { role: "bot", text: response }]);
-    } catch {
-      setMessages([...newMsgs, { role: "bot", text: "Maaf, terjadi gangguan. Coba sebentar lagi ya Kak!" }]);
-    } finally {
+    setTimeout(() => {
+      let reply = fallback;
+      const qLower = query.toLowerCase();
+      
+      const matchedFaq = faqs.find(f => 
+        qLower.includes(f.q.toLowerCase()) || 
+        f.q.toLowerCase().includes(qLower)
+      );
+      
+      if (matchedFaq) {
+        reply = matchedFaq.a;
+      }
+      
+      setMessages((prev) => [...prev, { role: "bot", text: reply }]);
       setTyping(false);
-    }
+    }, 700);
   };
 
   return (
@@ -87,7 +108,12 @@ export default function AITutorWidget() {
                     ? "bg-[var(--primary)] text-white rounded-br-sm"
                     : "bg-white text-[var(--text-primary)] rounded-bl-sm border border-[var(--border-light)] shadow-sm"
                 }`}>
-                  {msg.text}
+                  {/* Process links in text for fallback */}
+                  {msg.text.split(/(https?:\/\/[^\s]+)/g).map((part, i) => 
+                    part.match(/^https?:\/\//) 
+                      ? <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="text-sky-600 underline font-semibold">{part}</a>
+                      : <span key={i}>{part}</span>
+                  )}
                 </div>
               </div>
             ))}
