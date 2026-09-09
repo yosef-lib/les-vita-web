@@ -4,13 +4,13 @@ import ChatbotWrapper from "@/components/ChatbotWrapper";
 import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "Les Vita - Bimbingan Belajar & Mentorship Cerdas Ramah Anak",
+  title: "Les Vita - Les-lesan Surabaya & Mentorship Anak Terbaik",
   description:
     "Bimbingan Belajar & Mentorship Terbaik untuk Masa Depan Anak dengan Asisten AI 24 Jam dan Pengingat WhatsApp Otomatis.",
-  keywords: "les privat, bimbel, tutor, SD, SMP, les anak, les online, les vita",
+  keywords: "les les an surabaya, les-lesan surabaya, les privat, bimbel surabaya, tutor, SD, SMP, les anak, les online, les vita",
   openGraph: {
-    title: "Les Vita - Bimbingan Belajar & Mentorship Cerdas",
-    description: "Bimbel SD & SMP dengan AI Asisten 24/7 & Pengingat WA Otomatis",
+    title: "Les Vita - Les-lesan Surabaya & Mentorship Anak Terbaik",
+    description: "Bimbel SD & SMP di Surabaya dengan AI Asisten 24/7 & Pengingat WA Otomatis",
     type: "website",
   },
 };
