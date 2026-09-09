@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { askVitaAI } from "@/lib/aiClient";
 
 export default function AITutorWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,36 +27,28 @@ export default function AITutorWidget() {
     "Jadwal les hari apa?",
   ];
 
-  const generateReply = (question: string): string => {
-    const q = question.toLowerCase();
-    if (q.includes("program") || q.includes("les apa")) {
-      return `Kami punya program les SD & SMP:\n\n📚 SD: Calistung, Matematika & IPA, English Fun, Les Semua Mapel\n📚 SMP: Matematika & IPA, OSN, Ujian Sekolah, Bahasa Inggris\n\nMau tahu detail yang mana? 😊`;
-    }
-    if (q.includes("biaya") || q.includes("harga") || q.includes("bayar")) {
-      return `Biaya mulai dari:\n\n• SD: Rp 250rb - 400rb/bulan\n• SMP: Rp 400rb - 500rb/bulan\n\nSudah termasuk modul & laporan WA ke orang tua!\n\n📲 Chat WA admin untuk info lebih detail ya!`;
-    }
-    if (q.includes("daftar") || q.includes("registrasi") || q.includes("gabung")) {
-      return `Cara daftar:\n1️⃣ Chat admin via WA\n2️⃣ Konsultasi gratis\n3️⃣ Pilih program & jadwal\n4️⃣ Mulai les! 🎉\n\n✅ Konsultasi & trial pertama GRATIS!`;
-    }
-    if (q.includes("jadwal") || q.includes("hari") || q.includes("jam")) {
-      return `Jadwal fleksibel:\n⏰ Senin - Sabtu\n⏰ 13.00 - 20.00 WIB\n⏰ 60-90 menit/pertemuan\n\nBisa diatur sesuai kegiatan sekolah anak!`;
-    }
-    return `Terima kasih! 😊 Untuk info lebih lengkap, langsung chat admin WA kami ya!\n\n📲 Klik tombol "Daftar via WhatsApp" di halaman ini.`;
-  };
-
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = textToSend || inputMessage;
     if (!query.trim() || typing) return;
 
-    setMessages((prev) => [...prev, { role: "user", text: query }]);
+    const userMsg = { role: "user" as const, text: query };
+    const newMsgs = [...messages, userMsg];
+    setMessages(newMsgs);
     if (!textToSend) setInputMessage("");
     setTyping(true);
 
-    setTimeout(() => {
-      const reply = generateReply(query);
-      setMessages((prev) => [...prev, { role: "bot", text: reply }]);
+    try {
+      const apiMessages = newMsgs.map(m => ({
+        role: m.role === 'bot' ? 'assistant' : 'user',
+        content: m.text
+      })) as any[];
+      const response = await askVitaAI(apiMessages);
+      setMessages([...newMsgs, { role: "bot", text: response }]);
+    } catch {
+      setMessages([...newMsgs, { role: "bot", text: "Maaf, terjadi gangguan. Coba sebentar lagi ya Kak!" }]);
+    } finally {
       setTyping(false);
-    }, 800);
+    }
   };
 
   return (
