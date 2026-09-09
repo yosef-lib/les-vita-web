@@ -112,23 +112,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-slate-100">
-          <p className="text-center text-xs font-semibold text-slate-400 mb-4">AKUN DEMO YANG TERSEDIA</p>
-          <div className="grid grid-cols-3 gap-2">
-            <div className="bg-slate-50 p-2 rounded-lg border border-slate-100 text-center">
-              <span className="block text-[10px] text-slate-500 uppercase">Admin</span>
-              <span className="block text-xs font-bold text-slate-700">admin</span>
-            </div>
-            <div className="bg-slate-50 p-2 rounded-lg border border-slate-100 text-center">
-              <span className="block text-[10px] text-slate-500 uppercase">Tutor</span>
-              <span className="block text-xs font-bold text-slate-700">willi</span>
-            </div>
-            <div className="bg-slate-50 p-2 rounded-lg border border-slate-100 text-center">
-              <span className="block text-[10px] text-slate-500 uppercase">Siswa</span>
-              <span className="block text-xs font-bold text-slate-700">alif</span>
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
   );
