@@ -108,3 +108,10 @@ model Homework {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model SiteSettings {
+  id              String   @id @default("global")
+  chatbotPrompt   String?
+  homepageContent String?  // JSON string
+  updatedAt       DateTime @updatedAt
+}

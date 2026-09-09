@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -8,7 +9,9 @@ export async function POST(req: Request) {
     const apiKey = process.env.AI_API_KEY || 'sk-clario-281f6b893aa17a2ed85ed564756b918ab8467e1926e43eae';
     const selectedModel = model || process.env.AI_DEFAULT_MODEL || 'clario/deepseek-v4-flash';
 
-    const defaultSystem = systemPrompt || `Anda adalah "Kak Vita", tutor AI yang sangat ramah, sabar, ceria, dan pandai mengajar anak SD, SMP, dan SMA/SNBT. 
+    const settings = await prisma.siteSettings.findUnique({ where: { id: "global" } });
+    
+    const defaultSystem = systemPrompt || settings?.chatbotPrompt || `Anda adalah "Kak Vita", tutor AI yang sangat ramah, sabar, ceria, dan pandai mengajar anak SD, SMP, dan SMA/SNBT. 
 Tujuan Anda adalah membantu siswa belajar dan menjawab soal-soal sekolah dengan penjelasan langkah-demi-langkah yang mudah dipahami.
 Gunakan bahasa Indonesia yang santun, hangat, menyemangati, dan gunakan emotikon yang bersahabat.
 Jika ada rumus matematika atau fisika, jelaskan dengan rapi dan berikan trik cepatnya jika ada.`;

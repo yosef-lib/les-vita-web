@@ -66,12 +66,25 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<ProgramTab>("sd");
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dynamicPrograms, setDynamicPrograms] = useState(programs);
 
   const heroSection = useInView();
   const featureSection = useInView();
   const testimonialSection = useInView();
   const programSection = useInView();
   const storeSection = useInView();
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.homepageContent) {
+          const parsed = JSON.parse(data.homepageContent);
+          if (parsed.programs) setDynamicPrograms(parsed.programs);
+        }
+      })
+      .catch(err => console.error("Error fetching settings:", err));
+  }, []);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 30);
@@ -359,7 +372,7 @@ export default function Home() {
             </div>
 
             <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger ${programSection.inView ? "" : "opacity-0"}`}>
-              {programs[activeTab].map((p, i) => (
+              {dynamicPrograms[activeTab].map((p, i) => (
                 <div key={`${activeTab}-${i}`}
                   className={`bg-white rounded-2xl p-6 border border-[var(--border-light)] card-hover flex flex-col justify-between ${programSection.inView ? "animate-fade-in-up" : ""}`}>
                   <div className="space-y-3">
